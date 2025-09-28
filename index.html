@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>裝櫃達人 | 使用流程說明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .step-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .section-title {
+            border-bottom: 3px solid #3b82f6; /* blue-500 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .pro-tip {
+            background-color: #eef2ff; /* indigo-50 */
+            border-left: 4px solid #6366f1; /* indigo-500 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        .condition-card {
+            background-color: #f8fafc; /* slate-50 */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center items-center gap-4">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box-select"><path d="M5 3a2 2 0 0 0-2 2v2"/><path d="M19 3a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2H7"/><path d="M3 17v2a2 2 0 0 0 2 2h2"/><rect width="18" height="12" x="3" y="7" rx="2"/></svg>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">裝櫃達人</h1>
+            </div>
+            <p class="mt-4 text-xl text-blue-600 font-semibold">您的智能裝櫃神隊友</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Introduction -->
+        <section class="mb-16 text-center max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">歡迎使用「裝櫃達人」！</h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                您是不是常常為了怎麼把貨物塞滿整個貨櫃而傷筋？「裝櫃達人」就是來解決這個問題的！把它想像成一個經驗豐富的裝櫃師傅，您只要給他貨物清單和貨櫃尺寸，他就能在幾秒鐘內，規劃出最省空間、最有效率的裝櫃順序，還能用 3D 圖直接呈現給您看。接下來，我們來看看怎麼使用它，以及它背後有多聰明！
+            </p>
+        </section>
+
+        <!-- Part 1: 3-Step Guide -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center section-title max-w-2xl mx-auto">第一部分：跟著我做，三步驟完成裝櫃規劃</h2>
+            <div class="grid md:grid-cols-3 gap-8 mt-12">
+                <!-- Step 1 -->
+                <div class="step-card p-6 flex flex-col items-center text-center">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.71V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1"/><path d="M16 5h2a2 2 0 0 1 2 2v2"/><path d="M17 14.12V18a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-4"/><path d="M12 12v6"/><path d="M15 12v6"/><path d="M9 12v6"/><path d="M22 12h-6"/><path d="M15 8.5V7a1 1 0 0 1 1-1h1"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">步驟一：設定貨櫃</h3>
+                    <p class="text-gray-600">
+                        您可以直接修改預設的貨櫃尺寸（例如 40 呎高櫃），或是點擊「＋ 新增貨櫃類型」來增加您常用的貨櫃。
+                    </p>
+                    <div class="pro-tip w-full mt-auto">
+                        <p class="font-semibold">小提示：</p>
+                        <p class="text-sm">建議您把最大、最常用的貨櫃放在第一位，因為我們的裝櫃師傅會優先使用它。</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-card p-6 flex flex-col items-center text-center">
+                     <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 10.5c.8-2.3 2.5-4 4.5-4s3.7 1.7 4.5 4"/><path d="M16 14h-2.5"/><path d="M13.5 14H10"/><path d="M15 17.5c0 .8-.7 1.5-1.5 1.5h-3c-.8 0-1.5-.7-1.5-1.5"/><path d="M20.9 14c.1-.3.1-.6.1-1 0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c.4 0 .7 0 1-.1"/><path d="M19 19l3 3"/><path d="m19 22 3-3"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">步驟二：啟用「裝箱打包」</h3>
+                    <p class="text-gray-600">
+                        這是我們的超強選用功能！它會自動將您清單裡的小件貨物，打包成標準尺寸的「外箱」，極大化空間利用。
+                    </p>
+                     <div class="pro-tip w-full mt-auto">
+                        <p class="font-semibold">智慧打包：</p>
+                        <p class="text-sm">您可以自訂外箱尺寸，並定義需要預先打包的小貨物標準（例如，體積小於外箱 25%）。</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-card p-6 flex flex-col items-center text-center">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 12.24a1 1 0 0 0-.02-1.24l-3.37-3.38a1.27 1.27 0 0 0-1.79 0l-7.38 7.37a1.33 1.33 0 0 0 0 1.8l3.37 3.37c.5.5 1.3.5 1.8 0l7.38-7.38a1 1 0 0 0 .01-1.24Z"/><path d="m14 7 3 3"/><path d="M5 12h2"/><path d="M5 18h2"/><path d="M5 6h2"/><path d="M19 6c1.7 0 3 1.3 3 3v2"/><path d="M19 16v-2c0-1.7-1.3-3-3-3H9"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">步驟三：上傳貨物清單</h3>
+                    <p class="text-gray-600">
+                        準備好您的 Excel 清單，點擊「選擇檔案」上傳。欄位順序很重要喔：件號, 件名, 長, 寬, 高, CBM...等等。
+                    </p>
+                    <div class="mt-6">
+                        <button class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+                            開始計算
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Result Display -->
+            <div class="mt-16 bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-center mb-6">專業 3D 裝櫃圖與順序清單，馬上出爐！</h3>
+                <div class="bg-gray-200 rounded-lg p-4">
+                    <img src="https://raw.githubusercontent.com/YungKunChou/bin_packing_manual/refs/heads/main/3D_bin_packing.jpg" alt="3D裝櫃圖預覽" class="w-full max-w-xl mx-auto rounded-md">
+                </div>
+                <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto">
+                    您可以點擊不同貨櫃的頁籤，用滑鼠在 3D 圖上拖拉、縮放，還能一步步播放裝櫃過程。如果用了「裝箱打包」功能，下方還會多出一個結果區，讓您看到每個外箱裡面是怎麼裝的！
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Part 2: How it works -->
+        <section>
+            <h2 class="text-3xl font-bold text-center section-title max-w-3xl mx-auto">第二部分：裝櫃師傅的「聰明大腦」是怎麼運作的？</h2>
+            <p class="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-12">您可能會好奇，為什麼它排出來的結果這麼厲害？這裡我用最簡單的方式，為您揭秘它背後的思考邏輯。</p>
+
+            <!-- NEW: 5 Conditions Section -->
+            <div class="mb-16 bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-center mb-2">✨ 認識五種「裝櫃條件」</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">在您的 Excel 清單中，「裝櫃條件」這一欄非常關鍵。它就像給師傅的「特別指示」，告訴他每種貨物有什麼脾氣。設定得越好，裝櫃結果就越完美！</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 專櫃 -->
+                    <div class="condition-card">
+                        <h4 class="font-bold text-lg text-amber-600">專櫃 (The VIP)</h4>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「這票貨是超級貴賓，需要自己專屬的貨櫃，不能有任何其他種類的貨物來打擾。」</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>為這個「件號」的貨物開一個專屬貨櫃。例如，「專櫃」的A零件自己裝一櫃，「專櫃」的B零件裝另一櫃。</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>高價值、指定客戶、或絕對不能混放的貨物。</p>
+                    </div>
+                    <!-- 併櫃 -->
+                    <div class="condition-card">
+                        <h4 class="font-bold text-lg text-sky-600">併櫃 (Business Class)</h4>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「這批貨物們可以互相作伴，但不想跟普通貨物混在一起。」</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>將所有標示為「併櫃」的貨物集中起來，用一個或多個貨櫃來裝，裡面不會有其他條件的貨。</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>需集中管理，但貨物本身可互相混合的場景（如同一專案）。</p>
+                    </div>
+                    <!-- 頂層 -->
+                    <div class="condition-card">
+                        <h4 class="font-bold text-lg text-rose-600">頂層 (The Cake)</h4>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我很脆弱！請務必放在最上面，不准在我頭上再放任何東西！」</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>盡力將此貨物放在堆疊的最頂端，且絕不讓任何東西壓在它上面。</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>怕壓的輕貨、易碎品、或包裝脆弱的貨物。</p>
+                    </div>
+                     <!-- 中層 -->
+                    <div class="condition-card">
+                        <h4 class="font-bold text-lg text-indigo-600">中層 (The Sturdy Box)</h4>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我是個堅固的標準紙箱，可以被堆疊，也可以堆在別人身上。」</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>最常見的貨物。它上面可以堆東西，也可以被堆在「不限」或其他「中層」貨物之上。</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>大部分結構堅固的標準貨物。</p>
+                    </div>
+                     <!-- 不限 -->
+                    <div class="condition-card">
+                        <h4 class="font-bold text-lg text-slate-600">不限 (The Tough Guy)</h4>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我身強體壯，不怕壓，怎麼放都行，可以當作地基。」</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>給了系統最大的彈性。系統會靈活運用這些貨物來打地基或填補空隙。</p>
+                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>最耐用、最不怕壓、或完全不在意放置位置的貨物上。</p>
+                    </div>
+                    <div class="condition-card lg:col-span-1 md:col-span-2 bg-blue-50 border-blue-200">
+                         <h4 class="font-bold text-lg text-blue-800">總結</h4>
+                         <p class="text-sm mt-2">正確設定這些條件，就等於給了我們的裝櫃師傅最清晰的指令，讓他能為您做出最棒的規劃！</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center max-w-4xl mx-auto mb-12">
+                <div class="mt-6 p-6 bg-blue-50 border border-blue-200 rounded-lg inline-block">
+                    <h4 class="text-xl font-bold text-blue-800">核心概念：先整理、再裝櫃 (兩階段裝櫃法)</h4>
+                    <p class="text-blue-700 mt-2">當您啟用「裝箱打包」功能後，系統會分兩大階段來思考。</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <!-- Stage 1 -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-600">第一階段：聰明地預打包小貨物</h3>
+                    <p class="mb-6 text-gray-600">系統會先有條不紊地處理零散的小貨物，如同開設三條不同的生產線：</p>
+                    
+                    <!-- VIP Line -->
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="bg-yellow-100 text-yellow-600 rounded-full p-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">VIP 生產線 (處理「專櫃」貨物)</h4>
+                            <p class="text-gray-600 text-sm">系統會先將「專櫃」小貨物依照「件號」分類，然後只為同一種件號的貨物打包外箱。您絕對不會在同一個外箱裡看到兩種不同的專櫃貨！</p>
+                        </div>
+                    </div>
+                    <!-- Shared Line -->
+                    <div class="flex items-start gap-4 mb-6">
+                         <div class="bg-green-100 text-green-600 rounded-full p-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">共享生產線 (處理「併櫃」貨物)</h4>
+                            <p class="text-gray-600 text-sm">系統會把不同種類的「併櫃」小貨物，很有效率地混合打包進外箱裡。</p>
+                        </div>
+                    </div>
+                     <!-- General Line -->
+                    <div class="flex items-start gap-4 mb-6">
+                         <div class="bg-gray-100 text-gray-600 rounded-full p-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">一般生產線 (處理「混合」貨物)</h4>
+                            <p class="text-gray-600 text-sm">剩下所有「不限」、「頂層」、「中層」的貨物都在這裡處理。系統會遵守堆疊規則（例如，「頂層」貨物放最上面），同時還會自動嘗試將貨物旋轉 90 度，尋找最省空間的放法！</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <p class="font-semibold">如果小貨物裝不進外箱怎麼辦？</p>
+                        <p class="text-sm">別擔心！如果有個小貨物裝不進任何外箱，系統不會丟下它。它會把這個貨物移到大貨物的隊伍裡，讓它跟著大貨物一起進入下個階段。</p>
+                    </div>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-4 text-green-600">第二階段：最終總裝櫃</h3>
+                    <p class="mb-6 text-gray-600">現在，我們手上有了大貨物和打包好的各類外箱。最後一步，就是把它們全部裝進真正的運輸貨櫃裡，過程同樣嚴格遵守分類優先級：</p>
+                    
+                    <ol class="relative border-l border-gray-200">                  
+                        <li class="mb-10 ml-6">            
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full -left-4 ring-4 ring-white font-bold">
+                                1
+                            </span>
+                            <h4 class="flex items-center mb-1 text-lg font-semibold text-gray-900">專櫃貨櫃最優先</h4>
+                            <p class="text-base font-normal text-gray-600">系統會開一個專屬貨櫃，裡面只會裝同一種件號的「專櫃」大箱和「專櫃」外箱。</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                             <span class="absolute flex items-center justify-center w-8 h-8 bg-green-100 rounded-full -left-4 ring-4 ring-white font-bold">
+                                2
+                            </span>
+                            <h4 class="mb-1 text-lg font-semibold text-gray-900">接著是併櫃貨櫃</h4>
+                            <p class="text-base font-normal text-gray-600">處理完所有專櫃貨後，系統會開始裝載所有「併櫃」的大貨物和「併櫃外箱」。</p>
+                        </li>
+                        <li class="ml-6">
+                             <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white font-bold">
+                                3
+                            </span>
+                            <h4 class="mb-1 text-lg font-semibold text-gray-900">最後是混合貨櫃</h4>
+                            <p class="text-base font-normal text-gray-600">把剩下所有「混合」的大貨物和「混合外箱」全部裝進去。</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+                 <h3 class="text-2xl font-bold mb-4">這就是「裝櫃達人」的專業！</h3>
+                 <p class="text-gray-600 leading-relaxed">
+                    透過這一整套嚴謹又聰明的思考流程，「裝櫃達人」才能為您規劃出最專業、最有效率的裝櫃方案。
+                 </p>
+            </div>
+
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <p>&copy; 2025 裝櫃達人. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+
