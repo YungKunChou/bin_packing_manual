@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>裝櫃達人 - 隱私權政策</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Cool Slate -->
+    <!-- Application Structure Plan: A responsive two-panel layout is used. The left panel features a sticky navigation sidebar with links to each policy section, allowing for instant "jump-to" functionality. The right panel displays the corresponding content. This structure transforms a linear, static legal document into an interactive, non-linear experience, prioritizing user navigation and quick access to specific information, which is crucial for usability in policy documents. -->
+    <!-- Visualization & Content Choices: Report Info: A text-based privacy policy. Goal: Inform & Organize. Viz/Presentation Method: Interactive navigation sidebar (HTML/CSS/JS) with scroll-spying, linked to styled content sections. A visually distinct callout box is used for the most critical user promise (data deletion). Interaction: Click-to-scroll and active section highlighting. Justification: For dense, hierarchical text, interactive navigation is the most effective method to improve readability and exploration. It organizes information and allows users to find answers quickly. This is more appropriate than any form of data chart. Library/Method: Vanilla JS for all interactions. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .nav-link.active {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            font-weight: 600;
+        }
+        .content-section:target {
+            animation: highlight 1.5s ease-out;
+        }
+        @keyframes highlight {
+            from { background-color: #f0f9ff; }
+            to { background-color: transparent; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="max-w-screen-xl mx-auto p-4 md:p-8">
+        <header class="mb-8 pb-4 border-b border-slate-200">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">裝櫃達人 - 隱私權政策</h1>
+            <p class="mt-2 text-slate-600">最後更新日期：2025年9月30日</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Navigation Sidebar -->
+            <aside class="md:col-span-1">
+                <nav id="table-of-contents" class="sticky top-8 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="font-bold text-slate-900 mb-3">政策章節</h2>
+                    <ul class="space-y-2">
+                        <li><a href="#section1" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">1. 我們收集的資訊</a></li>
+                        <li><a href="#section2" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">2. 我們如何使用您的資訊</a></li>
+                        <li><a href="#section3" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">3. 資料的儲存、處理與安全</a></li>
+                        <li><a href="#section4" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">4. 資料分享與揭露</a></li>
+                        <li><a href="#section5" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">5. Cookie 的使用</a></li>
+                        <li><a href="#section6" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">6. 隱私權政策的變更</a></li>
+                        <li><a href="#section7" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">7. 聯絡我們</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="md:col-span-3 space-y-12">
+                <article class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm text-slate-600 leading-relaxed">
+                    <p>歡迎您使用「裝櫃達人」（以下簡稱「本服務」）。我們非常重視您的隱私權，並致力於保護您的資料安全。本隱私權政策旨在說明當您使用本服務時，我們如何收集、使用及保護您的資訊。</p>
+                </article>
+
+                <article id="section1" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">1. 我們收集的資訊</h2>
+                    <div class="space-y-4 text-slate-600 leading-relaxed">
+                        <p>為了提供核心的裝櫃計算功能，我們會處理以下類型的資訊：</p>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">您主動提供的資料：</h3>
+                            <p>您為了進行運算而上傳的 Excel 檔案。這些檔案可能包含您業務相關的資料，例如貨物名稱、尺寸（長、寬、高）、重量、數量，以及貨櫃的尺寸等。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">自動收集的技術資訊：</h3>
+                            <p>如同大多數網站，當您使用本服務時，我們的伺服器會自動記錄一些技術資訊，可能包括：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>您的 IP 位址</li>
+                                <li>瀏覽器類型與版本</li>
+                                <li>作業系統</li>
+                                <li>存取時間與日期</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="section2" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">2. 我們如何使用您的資訊</h2>
+                    <div class="space-y-4 text-slate-600 leading-relaxed">
+                         <p>我們僅在下列目的下使用所收集的資訊：</p>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">提供核心服務：</h3>
+                            <p>您上傳的檔案資料，<strong>僅用於執行裝櫃的最佳化計算</strong>，並產生結果供您下載。這是本服務的唯一目的。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">維護與改善服務：</h3>
+                            <p>自動收集的技術資訊用於監控服務的運行狀態、分析效能、除錯，以及保護服務不受惡意攻擊。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="section3" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">3. 資料的儲存、處理與安全</h2>
+                    <div class="space-y-4 text-slate-600 leading-relaxed">
+                        <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg">
+                            <h3 class="font-bold text-sky-800">我們對您最重要的承諾：</h3>
+                            <p class="mt-2 text-sky-700">您上傳的 Excel 檔案及其中包含的業務資料，僅會在伺服器記憶體中進行暫時處理以完成計算。計算完成後，這些檔案和資料將被立即或在極短時間內自動刪除，**我們不會將其永久儲存在我們的伺服器上。**</p>
+                        </div>
+                        <p>我們採取業界標準的安全措施來保護您的資訊，包括：</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>使用安全通訊端層 (SSL/HTTPS) 技術，對您瀏覽器與伺服器之間的資料傳輸進行加密。</li>
+                            <li>將服務部署於具備專業安全防護的雲端主機平台（例如 Render）。</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="section4" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">4. 資料分享與揭露</h2>
+                    <div class="text-slate-600 leading-relaxed">
+                        <p>我們絕不會出售、出租或交易您的個人或業務資料給任何第三方。我們僅在以下極少數情況下，才可能分享您的資訊：</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li><strong>法律要求</strong>：當基於法律、法規、法律程序或政府的強制性要求時。</li>
+                            <li><strong>服務供應商</strong>：我們可能會與提供主機託管服務的第三方供應商（例如 Render）分享必要的技術資訊，以維持本服務的正常運作。</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="section5" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">5. Cookie 的使用</h2>
+                    <div class="text-slate-600 leading-relaxed">
+                        <p>本服務目前可能未使用 Cookie。未來若為提升使用者體驗而使用，例如記住您的偏好設定，我們將會更新本政策。</p>
+                    </div>
+                </article>
+
+                <article id="section6" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">6. 隱私權政策的變更</h2>
+                    <div class="text-slate-600 leading-relaxed">
+                       <p>我們可能會不時修訂本隱私權政策。若有任何重大變更，我們將會在本頁面上公布更新後的版本。建議您定期查看，以了解最新的政策內容。</p>
+                    </div>
+                </article>
+
+                <article id="section7" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">7. 聯絡我們</h2>
+                    <div class="text-slate-600 leading-relaxed">
+                        <p>如果您對本隱私權政策有任何疑問或建議，歡迎透過以下方式與我們聯繫：</p>
+                        <p class="mt-2 font-semibold">電子郵件：yungkun.chou@gmail.com</p>
+                    </div>
+                </article>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toc = document.getElementById('table-of-contents');
+            const links = toc.querySelectorAll('a.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            // Smooth scroll for nav links
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const topOffset = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+                        window.scrollTo({
+                            top: topOffset,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scrollspy for active link highlighting
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = toc.querySelector(`a[href="#${id}"]`);
+                    
+                    if (link) {
+                         if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                            links.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '-40% 0px -60% 0px',
+                threshold: 0.1
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+

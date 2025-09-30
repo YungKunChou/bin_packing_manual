@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>裝櫃達人 - 法律聲明與授權</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Cool Slate -->
+    <!-- Application Structure Plan: The application uses a two-panel, responsive layout. The left panel contains a sticky navigation sidebar, allowing users to instantly jump to any section. The "Third-Party Licenses" section is an accordion, keeping the navigation clean. The right panel displays the content. This structure was chosen to transform a long, linear legal document into a non-linear, easily explorable interactive experience, prioritizing user navigation and quick information retrieval over a simple text display. -->
+    <!-- Visualization & Content Choices: Report Info: A long, hierarchical legal text (EULA, third-party licenses). Goal: Organize and Inform. Viz/Presentation Method: An interactive navigation sidebar (HTML/CSS/JS) linked to content sections in a main panel. Interaction: Click-to-scroll, active section highlighting in the nav, and an accordion for the library list. Justification: For dense textual content without quantitative data, interactive navigation is the most effective way to make it "consumable and explorable." This approach is superior to static text or inapplicable charts. Library/Method: Vanilla JS for all interactions. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .nav-link.active {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            font-weight: 600;
+        }
+        .sub-nav-link.active {
+            background-color: #f0f9ff;
+            color: #0369a1;
+            font-weight: 500;
+        }
+        .content-section:target {
+            animation: highlight 1.5s ease-out;
+        }
+        @keyframes highlight {
+            from { background-color: #f0f9ff; }
+            to { background-color: transparent; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="max-w-screen-xl mx-auto p-4 md:p-8">
+        <header class="mb-8 pb-4 border-b border-slate-200">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">裝櫃達人 - 法律聲明與授權</h1>
+            <p class="mt-2 text-slate-600">本文件包含我們的著作權聲明、使用者授權合約 (EULA) 及第三方軟體授權資訊。</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Navigation Sidebar -->
+            <aside class="md:col-span-1">
+                <nav id="table-of-contents" class="sticky top-8 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="font-bold text-slate-900 mb-3">文件導覽</h2>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#part1" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">第一部分：著作權聲明</a>
+                        </li>
+                        <li>
+                            <a href="#part2" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors">第二部分：使用者授權合約</a>
+                        </li>
+                        <li>
+                            <div>
+                                <button id="third-party-toggle" class="nav-link block w-full text-left px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 transition-colors flex justify-between items-center">
+                                    <span>第三部分：第三方軟體授權</span>
+                                    <span id="toggle-icon" class="transform transition-transform">▼</span>
+                                </button>
+                                <ul id="third-party-list" class="hidden mt-2 ml-2 space-y-1 border-l-2 border-slate-200">
+                                    <li><a href="#third-party-pallets" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">The Pallets Projects</a></li>
+                                    <li><a href="#third-party-absl" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">absl-py, ortools, tzdata</a></li>
+                                    <li><a href="#third-party-mit" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">blinker, et_xmlfile, ...</a></li>
+                                    <li><a href="#third-party-colorama" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">colorama</a></li>
+                                    <li><a href="#third-party-numpy" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">numpy, pandas</a></li>
+                                    <li><a href="#third-party-packaging" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">packaging</a></li>
+                                    <li><a href="#third-party-pillow" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">pillow</a></li>
+                                    <li><a href="#third-party-protobuf" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">protobuf</a></li>
+                                    <li><a href="#third-party-dateutil" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">python-dateutil</a></li>
+                                    <li><a href="#third-party-typing" class="sub-nav-link block w-full text-left pl-3 pr-2 py-1.5 text-xs text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors">typing_extensions</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="md:col-span-3 space-y-12">
+                <article id="part1" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">第一部分：著作權聲明</h2>
+                    <p class="font-semibold text-slate-700">© 2025 周永坤. 版權所有，保留一切權利。</p>
+                    <p class="mt-4 text-slate-600 leading-relaxed">
+                        本軟體「裝櫃達人」（以下簡稱「本軟體」）之所有內容，包括但不限於原始碼、目的碼、圖形、使用者介面、文字、演算法及所有相關文件，其著作權、專利權、商標、營業秘密及其他所有智慧財產權，均為 周永坤（以下簡稱「版權所有者」）所擁有。
+                    </p>
+                </article>
+
+                <article id="part2" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">第二部分：使用者授權合約 (End-User License Agreement)</h2>
+                    <div class="space-y-6 text-slate-600 leading-relaxed">
+                        <p>歡迎使用「裝櫃達人」。本合約是您（個人或單一實體）與版權所有者之間，關於您使用本軟體的法律協議。當您存取或使用本軟體時，即表示您同意接受本合約所有條款之約束。若您不同意，請勿使用本軟體。</p>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">1. 授權授予 (Grant of License)</h3>
+                            <p>版權所有者授予您一個非專屬、不可轉讓的有限授權，讓您可以依照本合約的條款存取並使用本軟體提供的功能。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">2. 使用限制 (Restrictions)</h3>
+                            <p>您不得，亦不得允許他人：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>對本軟體進行反向工程（Reverse Engineering）、反編譯（Decompile）或反組譯（Disassemble）。</li>
+                                <li>複製、修改、散布、出租、出借或轉讓本軟體或其任何部分。</li>
+                                <li>移除或變更本軟體中的任何著作權、商標或其他所有權聲明。</li>
+                                <li>將本軟體用於任何非法目的，或用於任何侵犯第三方權利的行為。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">3. 所有權 (Ownership)</h3>
+                            <p>本合約僅授予您使用本軟體的權利，本軟體的所有權及智慧財產權仍歸版權所有者所有。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">4. 無擔保聲明 (Disclaimer of Warranty)</h3>
+                            <p>本軟體是「依現況 (as-is)」提供，不附帶任何形式的明示或默示擔保。版權所有者不保證本軟體的功能將完全滿足您的需求、運作完全不中斷或完全沒有錯誤（bugs）。您須自行承擔使用本軟體的所有風險。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">5. 責任限制 (Limitation of Liability)</h3>
+                            <p>在法律允許的最大範圍內，無論在任何情況下，對於因使用或無法使用本軟體所造成的任何直接、間接、附帶或衍生的損害（包括但不限於商業利潤損失、資料遺失或業務中斷），版權所有者均不負任何賠償責任，即使已被告知可能發生此類損害。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-700">6. 合約終止 (Termination)</h3>
+                            <p>若您未能遵守本合約的任何條款，您的使用權利將自動終止，恕不另行通知。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="part3" class="content-section bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">第三部分：第三方軟體授權聲明</h2>
+                    <p class="mb-6 text-slate-600">本軟體使用到以下開源元件，特此感謝其開發者社群。依據其授權條款，茲將其版權聲明與授權條款全文列出如下：</p>
+                    <div class="space-y-8">
+                        <section id="third-party-pallets" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">The Pallets Projects (Flask, Jinja2, MarkupSafe, Werkzeug, click, itsdangerous)</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: BSD-3-Clause License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright 2010 Pallets
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+                        </section>
+                        <section id="third-party-absl" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">absl-py, ortools, tzdata</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: Apache License 2.0</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright (multiple authors, see source)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</pre>
+                        </section>
+                        <section id="third-party-mit" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">blinker, et_xmlfile, flask-cors, gunicorn, immutabledict, openpyxl, pytz, six</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: MIT License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright (multiple authors, see source)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre>
+                        </section>
+                        <section id="third-party-colorama" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">colorama</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: BSD-3-Clause License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright (c) 2010 Jonathan Hartley
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of the copyright holders nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+                        </section>
+                        <section id="third-party-numpy" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">numpy, pandas</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: BSD-3-Clause License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright (c) 2005-2024, NumPy Developers.
+Copyright (c) 2008-2024, AQR Capital Management, LLC, Lambda Foundry, Inc. and PyData Development Team
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+                        </section>
+                        <section id="third-party-packaging" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">packaging</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: Apache License, Version 2.0 and BSD 2-Clause License</p>
+                            <div class="text-xs text-slate-600">
+                                <p class="mb-2"><strong>Apache License 2.0 is listed above.</strong></p>
+                                <p class="mb-2 font-semibold">BSD 2-Clause License:</p>
+                                <pre class="bg-slate-100 p-3 rounded-md overflow-x-auto">Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+                            </div>
+                        </section>
+                        <section id="third-party-pillow" class="content-section">
+                             <h4 class="text-lg font-semibold text-slate-700 mb-2">pillow</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: Historical Permission Notice and Disclaimer (HPND)</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">The Python Imaging Library (PIL) is
+    Copyright © 1997-2011 by Secret Labs AB
+    Copyright © 1995-2011 by Fredrik Lundh
+
+Pillow is the friendly PIL fork. It is
+    Copyright © 2010-2024 by Jeffrey A. Clark (Alex) and contributors.
+
+Like PIL, Pillow is licensed under the open source HPND License:
+
+By obtaining, using, and/or copying this software and/or its associated documentation, you agree that you have read, understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, modify, and distribute this software and its associated documentation for any purpose and without fee is hereby granted, provided that the above copyright notice appears in all copies, and that both that copyright notice and this permission notice appear in supporting documentation, and that the name of Secret Labs AB or the author not be used in advertising or publicity pertaining to distribution of the software without specific, written prior permission.
+
+SECRET LABS AB AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL SECRET LABS AB OR THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</pre>
+                        </section>
+                        <section id="third-party-protobuf" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">protobuf</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: BSD-3-Clause License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright 2008 Google Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Google Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+                        </section>
+                        <section id="third-party-dateutil" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">python-dateutil</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: Apache License, Version 2.0 and BSD 3-Clause License</p>
+                            <p class="text-xs text-slate-600">Both licenses are listed in this document.</p>
+                        </section>
+                        <section id="third-party-typing" class="content-section">
+                            <h4 class="text-lg font-semibold text-slate-700 mb-2">typing_extensions</h4>
+                            <p class="text-sm font-medium text-slate-500 mb-2">License: Python Software Foundation License</p>
+                            <pre class="bg-slate-100 p-3 rounded-md text-xs text-slate-600 overflow-x-auto">Copyright (c) 2001-2024 Python Software Foundation.
+All rights reserved.
+
+1. This LICENSE AGREEMENT is between the Python Software Foundation ("PSF"), and the Individual or Organization ("Licensee") accessing and otherwise using this software ("Python") in source or binary form and its associated documentation.
+2. Subject to the terms and conditions of this License Agreement, PSF hereby grants Licensee a nonexclusive, royalty-free, world-wide license to reproduce, analyze, test, perform and/or display publicly, prepare derivative works, distribute, and otherwise use Python alone or in any derivative version, provided, however, that PSF's License Agreement and PSF's notice of copyright, i.e., "Copyright © 2001-2024 Python Software Foundation; All Rights Reserved" are retained in Python alone or in any derivative version prepared by Licensee.
+3. In the event Licensee prepares a derivative work that is based on or incorporates Python or any part thereof, and wants to make the derivative work available to others as provided herein, then Licensee hereby agrees to include in any such work a brief summary of the changes made to Python.
+4. PSF is making Python available to Licensee on an "AS IS" basis. PSF MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT LIMITATION, PSF MAKES NO AND DISCLAIMS ANY REPRESENTATION OR WARRANTY OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF PYTHON WILL NOT INFRINGE ANY THIRD PARTY RIGHTS.
+5. PSF SHALL NOT BE LIABLE TO LICENSEE OR ANY OTHER USERS OF PYTHON FOR ANY INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES OR LOSS AS A RESULT OF MODIFYING, DISTRIBUTING, OR OTHERWISE USING PYTHON, OR ANY DERIVATIVE THEREOF, EVEN IF ADVISED OF THE POSSIBILITY THEREOF.
+6. This License Agreement will automatically terminate upon a material breach of its terms and conditions.
+7. Nothing in this License Agreement shall be deemed to create any relationship of agency, partnership, or joint venture between PSF and Licensee. This License Agreement does not grant permission to use PSF trademarks or trade name in a trademark sense to endorse or promote products or services of Licensee, or any third party.
+8. By copying, installing or otherwise using Python, Licensee agrees to be bound by the terms and conditions of this License Agreement.</pre>
+                        </section>
+                    </div>
+                </article>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toc = document.getElementById('table-of-contents');
+            const links = toc.querySelectorAll('a');
+            const sections = document.querySelectorAll('.content-section');
+            const thirdPartyToggle = document.getElementById('third-party-toggle');
+            const thirdPartyList = document.getElementById('third-party-list');
+            const toggleIcon = document.getElementById('toggle-icon');
+
+            // Accordion for third-party licenses
+            thirdPartyToggle.addEventListener('click', () => {
+                const isHidden = thirdPartyList.classList.contains('hidden');
+                thirdPartyList.classList.toggle('hidden');
+                toggleIcon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+
+            // Smooth scroll for nav links
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const topOffset = targetElement.getBoundingClientRect().top + window.pageYOffset - 20; // 20px offset
+                        window.scrollTo({
+                            top: topOffset,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scrollspy for active link highlighting
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = toc.querySelector(`a[href="#${id}"]`);
+                    
+                    if (link) {
+                         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                            // Deactivate all others before activating current
+                            links.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+
+                            // If it's a sub-link, also activate the main parent link
+                            const parentToggle = link.closest('ul')?.previousElementSibling;
+                            if(parentToggle && parentToggle.matches('.nav-link')){
+                                parentToggle.classList.add('active');
+                            }
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '-50% 0px -50% 0px',
+                threshold: 0
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
