@@ -182,7 +182,7 @@
 
             <div class="text-center max-w-4xl mx-auto mb-12">
                 <div class="mt-6 p-6 bg-blue-50 border border-blue-200 rounded-lg inline-block">
-                    <h3 class="text-xl font-bold text-blue-800">核心概念：先整理、再裝櫃 (兩階段裝櫃法)</h3>
+                    <h4 class="text-xl font-bold text-blue-800">核心概念：先整理、再裝櫃 (兩階段裝櫃法)</h4>
                     <p class="text-blue-700 mt-2">當您啟用「裝箱打包」功能後，系統會分兩大階段來思考。</p>
                 </div>
             </div>
@@ -260,10 +260,71 @@
                 </div>
             </div>
             
+            <div class="my-16 bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-center mb-4">🧠 裝櫃達人背後的智慧：我們的演算法如何思考？</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                    您是否好奇，「裝櫃達人」是如何在短時間內規劃出高品質的裝櫃方案的？這背後其實有一套結合了<strong>「完美理論」與「務實執行」</strong>的智慧結晶。您可以把它想像成一位經驗豐富的裝櫃達人，他分三步來完善任務：
+                </p>
+                <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6 text-left">
+                    <!-- Column 1: Step 1 -->
+                    <div class="condition-card h-full flex flex-col">
+                        <div class="flex items-start gap-3">
+                            <div class="bg-blue-100 text-blue-600 rounded-full p-2 flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            </div>
+                            <h4 class="font-bold text-lg text-blue-600 mt-1">第一步：紙上談兵 — 找出「數學上」的最佳物品組合</h4>
+                        </div>
+                        <div class="text-sm mt-4 flex-grow">
+                            <p class="mb-2"><strong class="text-gray-800">目標：</strong>在不考慮箱子怎麼擺，只考慮「總體積」的前提下，從您提供的所有貨物清單中，計算出一個能塞滿貨櫃體積的最佳貨物組合。</p>
+                            <p class="mb-2"><strong class="text-gray-800">方法：</strong>我們使用了 Google 開發的專業規劃引擎 (OR-Tools CP-SAT solver)，它能快速找到這個問題的「全域最佳解」。</p>
+                            <p><strong class="text-gray-800">成果：</strong>得到一份理論上最完美的「待裝清單」。這份清單上的貨物組合，是所有可能性中，總體積最接近貨櫃容量的。</p>
+                        </div>
+                    </div>
+                    <!-- Column 2: Step 2 -->
+                    <div class="condition-card h-full flex flex-col">
+                        <div class="flex items-start gap-3">
+                            <div class="bg-green-100 text-green-600 rounded-full p-2 flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </div>
+                            <h4 class="font-bold text-lg text-green-600 mt-1">第二步：實地操作 — 採用「經驗法則」的放置策略</h4>
+                        </div>
+                        <div class="text-sm mt-4 flex-grow">
+                            <p class="mb-2"><strong class="text-gray-800">目標：</strong>將第一步挑選出的貨物，實際地、一個一個地放入虛擬的貨櫃空間中。</p>
+                            <p class="mb-2"><strong class="text-gray-800">方法：</strong>達人採用了一套非常務實的「啟發式演算法」(Heuristic)，也就是我們常說的「經驗法則」。它的策略很直接，就是<strong>「大的先放，見縫插針」</strong>。</p>
+                            <ul class="list-disc list-inside space-y-1 mb-2">
+                                <li>先把所有待裝箱子從大到小排序。</li>
+                                <li>拿起最大的一個，找到當下最底、最裡面、最左邊的第一個好位置，然後放下。</li>
+                                <li>接著再拿第二大的，重複這個過程。</li>
+                            </ul>
+                            <p><strong class="text-gray-800">成果：</strong>這種策略速度極快，並且能迅速產出一個品質非常高的<strong>「區域最佳解」</strong>。</p>
+                        </div>
+                    </div>
+                    <!-- Column 3: Backup Plan -->
+                    <div class="condition-card h-full flex flex-col">
+                         <div class="flex items-start gap-3">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-2 flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                            </div>
+                            <h4 class="font-bold text-lg text-indigo-600 mt-1">獨家法寶：智慧備援機制 (Plan A vs. Plan B)</h4>
+                        </div>
+                        <div class="text-sm mt-4 flex-grow">
+                            <p class="mb-2">有時候，「理論上的完美」在現實中可能會碰壁。例如，挑選出的箱子形狀都很奇怪，實際擺放起來反而浪費了很多零碎空間。</p>
+                            <p class="mb-2">為了應對這種情況，我們的系統內建了一套自我檢查與備援機制：</p>
+                             <ul class="list-none space-y-1">
+                                <li><strong>Plan A (正常流程)：</strong>按照「第一步 → 第二步」的流程執行一次。</li>
+                                <li><strong>自我檢查：</strong>如果發現實際裝載的體積，連理論上總體積的 80% 都不到，系統就會判斷「這次的擺放效果很差！」。</li>
+                                <li><strong>Plan B (備援方案)：</strong>一旦觸發，系統會果斷放棄第一步的「完美清單」，改用一個更簡單直接的策略：將<strong>「所有」</strong>待裝箱子從大到小重新排序，再裝一次。</li>
+                                <li><strong>最終決策：</strong>系統最後會比較 Plan A 和 Plan B 兩個方案的成果，選擇裝載體積更高的那一個，作為最終的建議呈現給您。</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-12 text-center bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-                 <h3 class="text-2xl font-bold mb-4">這就是「裝櫃達人」的專業！</h3>
+                 <h3 class="text-2xl font-bold mb-4">🪄 這就是「裝櫃達人」的專業！</h3>
                  <p class="text-gray-600 leading-relaxed">
-                    透過這一整套嚴謹又聰明的思考流程，「裝櫃達人」才能為您規劃出最專業、最有效率的裝櫃方案。
+                    「裝櫃達人」的智慧在於它並非單純追求某一種極致，而是將**<strong>「全局最佳的數學規劃」與「務實高效的放置經驗」</strong>**相結合，並透過<strong>智慧備援機制進行雙重檢查</strong>，旨在快速地為您找到一個非常接近完美、且高度實用的裝櫃方案。
                  </p>
             </div>
 
@@ -274,13 +335,10 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white mt-16">
         <div class="container mx-auto px-6 py-4 text-center">
-            <p>&copy; 2025 Chou Yung Kun . All Rights Reserved.</p>
+            <p>&copy; 2025 Yung Kun Chou ． All Rights Reserved.</p>
         </div>
     </footer>
 
 </body>
 </html>
-
-
-
 
