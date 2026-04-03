@@ -1,345 +1,616 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>裝櫃達人 | 使用流程說明</title>
+    <title>裝櫃達人 | 系統操作手冊與核心邏輯解析</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+        
         body {
             font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            overflow-x: hidden;
         }
-        .step-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        .text-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .step-card:hover {
+
+        /* 捲動浮現動畫 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 150ms; }
+        .reveal-delay-2 { transition-delay: 300ms; }
+
+        /* 卡片懸停特效 */
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        .hover-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #cbd5e1;
         }
-        .section-title {
-            border-bottom: 3px solid #3b82f6; /* blue-500 */
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+
+        /* 玻璃透視背景 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
-        .pro-tip {
-            background-color: #eef2ff; /* indigo-50 */
-            border-left: 4px solid #6366f1; /* indigo-500 */
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
+
+        /* 特殊光影背景 */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 32px 32px;
         }
-        .condition-card {
-            background-color: #f8fafc; /* slate-50 */
-            border: 1px solid #e2e8f0; /* slate-200 */
-            border-radius: 0.75rem;
-            padding: 1.5rem;
+        
+        /* 漸層邊框卡片 */
+        .gradient-border-card {
+            position: relative;
+            background: white;
+            border-radius: 1.5rem;
+            z-index: 1;
+        }
+        .gradient-border-card::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 1.6rem;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .gradient-border-card:hover::before {
+            opacity: 1;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-slate-800 antialiased selection:bg-indigo-200 selection:text-indigo-900">
 
-    <!-- Header Section -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <div class="flex justify-center items-center gap-4">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box-select"><path d="M5 3a2 2 0 0 0-2 2v2"/><path d="M19 3a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2H7"/><path d="M3 17v2a2 2 0 0 0 2 2h2"/><rect width="18" height="12" x="3" y="7" rx="2"/></svg>
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">裝櫃達人</h1>
+    <!-- 頂部導覽列 -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    </div>
+                    <span class="font-black text-2xl tracking-tight text-slate-800">裝櫃達人</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#pipeline" class="text-slate-600 hover:text-indigo-600 font-bold transition-colors">系統流程</a>
+                    <a href="#guide" class="text-slate-600 hover:text-indigo-600 font-bold transition-colors">操作指南</a>
+                    <a href="#excel-format" class="text-slate-600 hover:text-indigo-600 font-bold transition-colors">裝載指令與格式</a>
+                    <a href="#algorithm" class="text-slate-600 hover:text-indigo-600 font-bold transition-colors">核心演算法</a>
+                </div>
             </div>
-            <p class="mt-4 text-xl text-blue-600 font-semibold">您的智能裝櫃神隊友</p>
+        </div>
+    </nav>
+
+    <!-- 英雄首頁 (Hero) -->
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-slate-50">
+        <div class="absolute inset-0 z-0 bg-grid-pattern opacity-40"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] rounded-full bg-indigo-400/20 blur-[80px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] rounded-full bg-cyan-400/20 blur-[80px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center reveal active">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 font-bold text-sm mb-6 border border-indigo-100 shadow-sm">
+                <span class="flex h-2.5 w-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                智能排櫃系統官方手冊
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                空間零浪費<span class="text-gradient">。堆疊零風險</span>
+            </h1>
+            <p class="mt-6 text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
+                搭載物理級穩固引擎，榨乾貨櫃的每一寸空間。協助您在極短時間內完成精確 3D 裝載規劃，並一鍵產出現場作業指導書 (SOP)。
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#guide" class="px-8 py-4 text-lg font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all hover:-translate-y-1">
+                    開始學習操作
+                </a>
+                <a href="#excel-format" class="px-8 py-4 text-lg font-bold rounded-xl text-slate-700 bg-white border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all hover:-translate-y-1">
+                    探索裝載控制指令
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
+    <!-- 系統全景流程圖 (Pipeline) -->
+    <section id="pipeline" class="py-20 bg-white relative z-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900">系統運作藍圖</h2>
+                <p class="mt-4 text-lg text-slate-500">從資料匯入到產出現場指導書的一站式流程</p>
+            </div>
 
-        <!-- Introduction -->
-        <section class="mb-16 text-center max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-4">歡迎使用「裝櫃達人」！</h2>
-            <p class="text-lg text-gray-600 leading-relaxed">
-                您是不是常常為了怎麼把貨物塞滿整個貨櫃而傷筋？「裝櫃達人」就是來解決這個問題的！把它想像成一個經驗豐富的裝櫃師傅，您只要給他貨物清單和貨櫃尺寸，他就能在幾秒鐘內，規劃出最省空間、最有效率的裝櫃順序，還能用 3D 圖直接呈現給您看。接下來，我們來看看怎麼使用它，以及它背後有多聰明！
-            </p>
-        </section>
+            <div class="reveal relative bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200 shadow-inner overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+                    <!-- 節點 1: 輸入 -->
+                    <div class="flex flex-col items-center w-full md:w-1/4">
+                        <div class="w-20 h-20 bg-white rounded-2xl shadow-md border border-slate-200 flex items-center justify-center mb-4 z-10 text-indigo-600">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800">1. 資料匯入</h3>
+                        <p class="text-sm text-slate-500 text-center mt-2">上傳 Excel 出貨明細<br/>設定貨櫃與策略</p>
+                    </div>
 
-        <!-- Part 1: 3-Step Guide -->
-        <section class="mb-20">
-            <h2 class="text-3xl font-bold text-center section-title max-w-2xl mx-auto">第一部分：跟著我做，三步驟完成裝櫃規劃</h2>
-            <div class="grid md:grid-cols-3 gap-8 mt-12">
-                <!-- Step 1 -->
-                <div class="step-card p-6 flex flex-col items-center text-center">
-                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.71V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1"/><path d="M16 5h2a2 2 0 0 1 2 2v2"/><path d="M17 14.12V18a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-4"/><path d="M12 12v6"/><path d="M15 12v6"/><path d="M9 12v6"/><path d="M22 12h-6"/><path d="M15 8.5V7a1 1 0 0 1 1-1h1"/></svg>
+                    <!-- 箭頭 -->
+                    <div class="hidden md:block w-full md:w-1/8 text-slate-300">
+                        <svg class="w-full h-8" fill="none" viewBox="0 0 100 24" preserveAspectRatio="none"><path stroke="currentColor" stroke-width="4" stroke-dasharray="6,6" d="M0 12h95M85 2l12 10-12 10"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">步驟一：設定貨櫃</h3>
-                    <p class="text-gray-600">
-                        您可以直接修改預設的貨櫃尺寸（例如 40 呎高櫃），或是點擊「＋ 新增貨櫃類型」來增加您常用的貨櫃。
-                    </p>
-                    <div class="pro-tip w-full mt-auto">
-                        <p class="font-semibold">小提示：</p>
-                        <p class="text-sm">建議您把最大、最常用的貨櫃放在第一位，因為我們的裝櫃師傅會優先使用它。</p>
+
+                    <!-- 節點 2: 運算 -->
+                    <div class="flex flex-col items-center w-full md:w-1/4">
+                        <div class="w-24 h-24 bg-gradient-to-br from-indigo-600 to-cyan-500 rounded-3xl shadow-xl shadow-indigo-200 flex items-center justify-center mb-4 z-10 text-white transform hover:scale-105 transition-transform">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800">2. 核心雲端運算</h3>
+                        <p class="text-sm text-slate-500 text-center mt-2">物理雙軌制引擎判定<br/>多模式打擂台最佳化</p>
                     </div>
-                </div>
-                <!-- Step 2 -->
-                <div class="step-card p-6 flex flex-col items-center text-center">
-                     <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 10.5c.8-2.3 2.5-4 4.5-4s3.7 1.7 4.5 4"/><path d="M16 14h-2.5"/><path d="M13.5 14H10"/><path d="M15 17.5c0 .8-.7 1.5-1.5 1.5h-3c-.8 0-1.5-.7-1.5-1.5"/><path d="M20.9 14c.1-.3.1-.6.1-1 0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c.4 0 .7 0 1-.1"/><path d="M19 19l3 3"/><path d="m19 22 3-3"/></svg>
+
+                    <!-- 箭頭 -->
+                    <div class="hidden md:block w-full md:w-1/8 text-slate-300">
+                        <svg class="w-full h-8" fill="none" viewBox="0 0 100 24" preserveAspectRatio="none"><path stroke="currentColor" stroke-width="4" stroke-dasharray="6,6" d="M0 12h95M85 2l12 10-12 10"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">步驟二：啟用「裝箱打包」</h3>
-                    <p class="text-gray-600">
-                        這是我們的超強選用功能！它會自動將您清單裡的小件貨物，打包成標準尺寸的「外箱」，極大化空間利用。
-                    </p>
-                     <div class="pro-tip w-full mt-auto">
-                        <p class="font-semibold">智慧打包：</p>
-                        <p class="text-sm">您可以自訂外箱尺寸，並定義需要預先打包的小貨物標準（例如，體積小於外箱 25%）。</p>
-                    </div>
-                </div>
-                <!-- Step 3 -->
-                <div class="step-card p-6 flex flex-col items-center text-center">
-                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 12.24a1 1 0 0 0-.02-1.24l-3.37-3.38a1.27 1.27 0 0 0-1.79 0l-7.38 7.37a1.33 1.33 0 0 0 0 1.8l3.37 3.37c.5.5 1.3.5 1.8 0l7.38-7.38a1 1 0 0 0 .01-1.24Z"/><path d="m14 7 3 3"/><path d="M5 12h2"/><path d="M5 18h2"/><path d="M5 6h2"/><path d="M19 6c1.7 0 3 1.3 3 3v2"/><path d="M19 16v-2c0-1.7-1.3-3-3-3H9"/></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">步驟三：上傳貨物清單</h3>
-                    <p class="text-gray-600">
-                        準備好您的 Excel 清單，點擊「選擇檔案」上傳。欄位順序很重要喔：件號, 件名, 長, 寬, 高, CBM...等等。
-                    </p>
-                    <div class="mt-6">
-                        <button class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
-                            開始計算
-                        </button>
+
+                    <!-- 節點 3: 輸出 -->
+                    <div class="flex flex-col items-center w-full md:w-1/4">
+                        <div class="w-20 h-20 bg-white rounded-2xl shadow-md border border-slate-200 flex items-center justify-center mb-4 z-10 text-emerald-500">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800">3. 3D 視覺與報表</h3>
+                        <p class="text-sm text-slate-500 text-center mt-2">互動式立體檢視<br/>一鍵匯出圖文 SOP</p>
                     </div>
                 </div>
             </div>
-            
-            <!-- Result Display -->
-            <div class="mt-16 bg-white p-6 md:p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-bold text-center mb-6">專業 3D 裝櫃圖與順序清單，馬上出爐！</h3>
-                <div class="bg-gray-200 rounded-lg p-4">
-                    <img src="https://raw.githubusercontent.com/YungKunChou/bin_packing_manual/refs/heads/main/3D_bin_packing.jpg" alt="3D裝櫃圖預覽" class="w-full max-w-xl mx-auto rounded-md">
+        </div>
+    </section>
+
+    <!-- 操作指南 (Guide) -->
+    <section id="guide" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-indigo-600 font-bold tracking-wider uppercase text-sm">Step-by-step Guide</span>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">系統操作指南</h2>
+                <p class="mt-4 text-lg text-slate-500">遵循介面區塊，輕鬆完成專業排程</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- 區塊 1 -->
+                <div class="reveal hover-card bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <svg class="w-40 h-40 text-indigo-100" viewBox="0 0 200 200" fill="currentColor">
+                            <rect x="20" y="60" width="160" height="80" rx="8" class="text-indigo-600"/>
+                            <rect x="30" y="70" width="140" height="60" rx="4" fill="white" opacity="0.2"/>
+                            <path d="M40 70 V130 M60 70 V130 M80 70 V130" stroke="white" stroke-width="2" stroke-dasharray="4,4"/>
+                            <circle cx="160" cy="100" r="12" fill="white" opacity="0.9"/>
+                            <path d="M156 100 l3 3 l6 -6" stroke="#4f46e5" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="inline-flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-700 font-black rounded-xl mb-4 text-lg">1</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">提供可用貨櫃類型</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            定義本次出貨可呼叫的貨櫃資源。請依序輸入貨櫃名稱、內部寬度、高度與深度（公分）。
+                        </p>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                            <p class="text-amber-800 text-sm font-bold flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                排序規則（重要）：
+                            </p>
+                            <p class="text-amber-700 text-sm mt-1">系統會由上到下優先取用。請務必將尺寸最大、或最優先希望使用的貨櫃排在最上方。</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto">
-                    您可以點擊不同貨櫃的頁籤，用滑鼠在 3D 圖上拖拉、縮放，還能一步步播放裝櫃過程。如果用了「裝箱打包」功能，下方還會多出一個結果區，讓您看到每個外箱裡面是怎麼裝的！
+
+                <!-- 區塊 2 -->
+                <div class="reveal hover-card bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row-reverse gap-8 items-center">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <svg class="w-40 h-40" viewBox="0 0 200 200" fill="none">
+                            <rect x="40" y="40" width="120" height="120" rx="16" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="4"/>
+                            <rect x="60" y="60" width="40" height="20" rx="10" fill="#4f46e5"/>
+                            <circle cx="90" cy="70" r="6" fill="white"/>
+                            <rect x="60" y="100" width="40" height="20" rx="10" fill="#4f46e5"/>
+                            <circle cx="90" cy="110" r="6" fill="white"/>
+                            <rect x="60" y="140" width="40" height="20" rx="10" fill="#cbd5e1"/>
+                            <circle cx="70" cy="150" r="6" fill="white"/>
+                            <path d="M120 70 h20 M120 110 h20 M120 150 h20" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="inline-flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-700 font-black rounded-xl mb-4 text-lg">2</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">裝箱打包與進階物理策略</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">提供三項進階的物理約束與打包策略（可依需求勾選）：</p>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <span class="text-emerald-500 mt-0.5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span>
+                                <span class="text-slate-700 leading-relaxed"><strong>裝箱打包功能：</strong>針對大量細小散件，設定外箱尺寸與 CBM 門檻，系統會預先將其打包，避免佔據貨櫃畸零空間。</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <span class="text-emerald-500 mt-0.5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span>
+                                <span class="text-slate-700 leading-relaxed"><strong>強制三邊搭接：</strong>執行最嚴格堆疊標準，每一個紙箱除了底部支撐，還必須有三面緊靠牆壁或相鄰箱體。</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <span class="text-emerald-500 mt-0.5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span>
+                                <span class="text-slate-700 leading-relaxed"><strong>考慮重量因素：</strong>絕對禁止將較重的物品疊放於較輕的物品之上，杜絕頭重腳輕的工安風險。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 區塊 3 -->
+                <div class="reveal hover-card bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <svg class="w-40 h-40 text-blue-100" viewBox="0 0 200 200" fill="none">
+                            <rect x="50" y="30" width="100" height="120" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="4"/>
+                            <path d="M50 70 h100" stroke="#94a3b8" stroke-width="4"/>
+                            <rect x="70" y="90" width="60" height="6" rx="3" fill="#cbd5e1"/>
+                            <rect x="70" y="110" width="40" height="6" rx="3" fill="#cbd5e1"/>
+                            <!-- 運算按鈕 -->
+                            <rect x="40" y="160" width="120" height="30" rx="15" fill="#4f46e5" shadow="lg"/>
+                            <circle cx="100" cy="50" r="16" fill="#4f46e5"/>
+                            <path d="M100 40 v12 m-4 -4 l4 -4 l4 4" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 100 50) translate(0 -2)"/>
+                            <path d="M95 170 l12 5 l-12 5 Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="inline-flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-700 font-black rounded-xl mb-4 text-lg">3</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">上傳清單與啟動運算</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            準備好您的 Excel 出貨明細（格式請參考下方<a href="#excel-format" class="text-indigo-600 font-bold hover:underline">格式說明</a>），點擊「選擇檔案」進行上傳。<br/>
+                            確認系統成功讀取筆數後，點擊<strong class="text-indigo-600">「開始計算」</strong>按鈕。系統將自動啟動雲端物理引擎，在數秒內為您找出最優的裝載解答。
+                        </p>
+                        <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-xl border border-slate-200">
+                            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                            <span class="text-sm text-slate-600">運算期間系統會執行多模式競技與重力壓縮，請稍候片刻。</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 區塊 4 -->
+                <div class="reveal hover-card bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row-reverse gap-8 items-center">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <svg class="w-48 h-48" viewBox="0 0 200 200" fill="none">
+                            <!-- 3D Cube Base -->
+                            <path d="M100 60 L150 85 L100 110 L50 85 Z" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M50 85 L100 110 L100 160 L50 135 Z" fill="#60a5fa" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M100 110 L150 85 L150 135 L100 160 Z" fill="#3b82f6" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/>
+                            <!-- Highlighted item inside -->
+                            <path d="M100 60 L125 72.5 L100 85 L75 72.5 Z" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M75 72.5 L100 85 L100 110 L75 97.5 Z" fill="#f87171" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M100 85 L125 72.5 L125 97.5 L100 110 Z" fill="#dc2626" stroke="#dc2626" stroke-width="2"/>
+                            <!-- Rotation arrows -->
+                            <path d="M40 160 C 20 140, 20 100, 40 80" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 6" fill="none" stroke-linecap="round"/>
+                            <path d="M35 85 L40 80 L45 85" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M160 160 C 180 140, 180 100, 160 80" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 6" fill="none" stroke-linecap="round"/>
+                            <path d="M165 85 L160 80 L155 85" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Cursor icon -->
+                            <path d="M130 130 l15 25 l-5 2 l4 10 l-6 2 l-4 -10 l-8 5 Z" fill="white" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="inline-flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-700 font-black rounded-xl mb-4 text-lg">4</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">3D 互動檢視與動畫沙盤</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            運算完成後，您將看到直覺且可操作的視覺化結果介面：
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                <h4 class="font-bold text-blue-800 text-sm mb-1 flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>資料連動高亮</h4>
+                                <p class="text-xs text-blue-600 leading-relaxed">滑鼠懸停於左側的順序清單時，右側 3D 空間內的對應箱體會立刻以紅色高亮顯示。</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                <h4 class="font-bold text-blue-800 text-sm mb-1 flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>無死角視角控制</h4>
+                                <p class="text-xs text-blue-600 leading-relaxed">支援滑鼠拖曳旋轉、滾輪縮放，協助您檢查貨櫃深處與角落的堆疊細節。</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-4 italic">
+                            💡 小提示：利用視窗底部的控制列，您可以一步步播放堆疊動畫，重現現場實況。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 區塊 5 -->
+                <div class="reveal hover-card bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/3 flex justify-center relative">
+                        <svg class="w-48 h-48" viewBox="0 0 200 200" fill="none">
+                            <!-- Background doc -->
+                            <rect x="30" y="20" width="110" height="140" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="4"/>
+                            <path d="M50 50 h70 M50 70 h70" stroke="#10b981" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+                            <!-- Foreground doc with image -->
+                            <rect x="60" y="40" width="110" height="140" rx="8" fill="white" stroke="#10b981" stroke-width="4" shadow="lg"/>
+                            <rect x="75" y="60" width="80" height="50" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+                            <!-- Image landscape icon -->
+                            <circle cx="95" cy="75" r="5" fill="#10b981" opacity="0.6"/>
+                            <path d="M75 110 L95 90 L115 110 L130 95 L155 110" stroke="#10b981" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                            <!-- Check lines -->
+                            <path d="M80 130 h40 M80 150 h60" stroke="#10b981" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+                            <!-- Green download button float -->
+                            <circle cx="170" cy="160" r="24" fill="#10b981" filter="drop-shadow(0 4px 6px rgb(16 185 129 / 0.4))"/>
+                            <path d="M170 148 v16 m-6 -6 l6 6 l6 -6" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="inline-flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-700 font-black rounded-xl mb-4 text-lg">5</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">報表匯出與現場指導書 (SOP)</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            確認裝載計畫無誤後，您可以直接將結果輸出為標準化文件，無縫對接現場作業：
+                        </p>
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start gap-3">
+                                <div class="mt-1 w-6 h-6 shrink-0 bg-white rounded shadow-sm flex items-center justify-center text-emerald-600 font-bold text-xs border border-slate-200">XLS</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">匯出 Excel 總覽表</h4>
+                                    <p class="text-xs text-slate-500 mt-1">系統將自動產生包含所有貨櫃明細的試算表，自動附上最終的 3D 截圖與總重量、體積利用率等數據摘要。</p>
+                                </div>
+                            </div>
+                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 flex items-start gap-3">
+                                <div class="mt-1 w-6 h-6 shrink-0 bg-white rounded shadow-sm flex items-center justify-center text-emerald-600 border border-emerald-200">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-emerald-800 text-sm">產生裝櫃手順書 (SOP)</h4>
+                                    <p class="text-xs text-emerald-700 mt-1">
+                                        強大的殺手級功能。系統會在背景自動為「每一個擺放步驟」進行 3D 截圖，並幫您排版成一份圖文並茂的教學表，現場人員完全按圖施工即可。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Excel 格式與進階裝載指令 (Focus Section) -->
+    <section id="excel-format" class="py-24 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan-400 font-bold tracking-wider uppercase text-sm">Data Input & Advanced Control</span>
+                <h2 class="text-3xl md:text-4xl font-black mt-2">裝載指令與 Excel 格式</h2>
+                <p class="mt-4 text-lg text-slate-400">掌握隱藏在表格中的強大調度力量</p>
+            </div>
+
+            <!-- PRO TIP: 裝櫃條件 -->
+            <div class="reveal gradient-border-card p-8 md:p-10 mb-16">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-slate-900">進階指令：裝櫃條件的隱藏力量</h3>
+                        <p class="text-slate-500 font-medium text-sm">向物理引擎下達最高級別的「車隊隔離」與「垂直防護」指令</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- 物流隔離指令 -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-md transition">
+                        <h4 class="font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2 flex justify-between items-center">
+                            物流隔離策略
+                            <span class="text-xs font-normal text-slate-400 bg-white px-2 py-1 rounded-full border border-slate-200">控制同車名單</span>
+                        </h4>
+                        
+                        <!-- 專櫃 -->
+                        <div class="mb-5">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2.5 py-1 bg-slate-800 text-white rounded text-xs font-bold">輸入「專櫃」</span>
+                                <span class="text-sm font-bold text-indigo-700">最高級別隔離</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-16 h-16 shrink-0 bg-white rounded-lg border border-slate-200 flex items-center justify-center">
+                                    <!-- 隔離 SVG -->
+                                    <svg class="w-10 h-10 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="8" width="6" height="8" rx="1" fill="#e0e7ff"/>
+                                        <path d="M12 4v16" stroke-dasharray="2 2" stroke="#94a3b8"/>
+                                        <rect x="15" y="8" width="6" height="8" rx="1" fill="#f1f5f9"/>
+                                        <rect x="16" y="10" width="4" height="4" fill="#cbd5e1" stroke="none"/>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    演算法會自動辨識該物品的「件號」，將相同件號的物品獨立派車裝櫃，<strong class="text-indigo-600">絕對不與其他料件混裝</strong>。適用於單一大量出貨或防混料的零件。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 併櫃/不限 -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2.5 py-1 bg-slate-200 text-slate-700 rounded text-xs font-bold">輸入「併櫃」或留白</span>
+                                <span class="text-sm font-bold text-slate-500">預設空間最大化</span>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                系統以「榨乾空間」為首要目標，將允許併櫃的零件混合堆疊、見縫插針。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 垂直堆疊防護指令 -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-md transition">
+                        <h4 class="font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2 flex justify-between items-center">
+                            垂直堆疊防護
+                            <span class="text-xs font-normal text-slate-400 bg-white px-2 py-1 rounded-full border border-slate-200">控制上下堆疊</span>
+                        </h4>
+                        
+                        <!-- 頂層 -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2.5 py-1 bg-rose-100 text-rose-700 rounded text-xs font-bold">輸入「頂層」</span>
+                                <span class="text-sm font-bold text-rose-600">絕對防重壓機制</span>
+                            </div>
+                            <div class="flex gap-4 mt-3">
+                                <div class="w-16 h-16 shrink-0 bg-white rounded-lg border border-slate-200 flex flex-col items-center justify-end pb-1 relative overflow-hidden">
+                                    <!-- 頂層 SVG -->
+                                    <div class="w-8 h-4 bg-slate-200 mb-0.5 rounded-sm"></div>
+                                    <div class="w-8 h-4 bg-slate-300 mb-0.5 rounded-sm"></div>
+                                    <div class="w-8 h-4 bg-rose-400 rounded-sm relative"></div>
+                                    <!-- 護盾/禁止符號 -->
+                                    <div class="absolute top-1 w-full flex justify-center">
+                                        <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    專為易碎品或不可承重包裝設計。物理引擎將嚴格鎖定該物品的上方空間，<strong class="text-rose-600">絕對禁止任何其他紙箱疊加在它上面</strong>，確保它永遠在紙箱塔的最頂端。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 基礎表格 -->
+            <div class="reveal reveal-delay-1 flex flex-col lg:flex-row gap-8 items-start">
+                <div class="w-full lg:w-1/3">
+                    <h3 class="text-2xl font-bold mb-3">嚴格的表頭格式</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">
+                        為了讓引擎正確判讀並套用上述控制指令，您的上傳清單第一列 (表頭) 必須<strong class="text-white">完全吻合</strong>右側說明的順序與名稱。
+                    </p>
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                        <p class="text-slate-300 text-xs">
+                            <strong class="text-amber-400">💡 維度提醒：</strong><br/>
+                            「長(櫃深)」對應貨櫃的深度方向；「寬(櫃寬)」對應貨櫃的左右寬度。重量單位為公斤 (kg)。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-2/3 bg-white rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-slate-800 text-sm whitespace-nowrap">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                                    <th class="p-3 pl-5">順序</th>
+                                    <th class="p-3">表頭名稱</th>
+                                    <th class="p-3">屬性</th>
+                                    <th class="p-3 pr-5">說明</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr><td class="p-3 pl-5 text-slate-400">1</td><td class="p-3 font-bold">件號</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-200 rounded text-xs">選填</span></td><td class="p-3 text-slate-500">搭配「專櫃」指令時必須填寫</td></tr>
+                                <tr class="bg-blue-50/30"><td class="p-3 pl-5 text-slate-400">2</td><td class="p-3 font-bold text-blue-700">件名</td><td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-bold">必填</span></td><td class="p-3 text-slate-600">3D 顯示的標籤名稱</td></tr>
+                                <tr class="bg-blue-50/30"><td class="p-3 pl-5 text-slate-400">3/4/5</td><td class="p-3 font-bold text-blue-700">長(櫃深) / 寬(櫃寬) / 高</td><td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-bold">必填</span></td><td class="p-3 text-slate-600">尺寸單位為公分 (cm)</td></tr>
+                                <tr class="bg-indigo-50/50"><td class="p-3 pl-5 text-slate-400">6</td><td class="p-3 font-bold text-indigo-700">CBM</td><td class="p-3"><span class="px-2 py-0.5 bg-indigo-200 text-indigo-800 rounded text-xs font-bold">必備</span></td><td class="p-3 text-slate-600">用於觸發外箱打包判斷</td></tr>
+                                <tr class="bg-blue-50/30"><td class="p-3 pl-5 text-slate-400">7</td><td class="p-3 font-bold text-blue-700">數量</td><td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-bold">必填</span></td><td class="p-3 text-slate-600">大於 0 的整數</td></tr>
+                                <tr class="bg-amber-50/30"><td class="p-3 pl-5 text-slate-400">8</td><td class="p-3 font-bold text-amber-700">裝櫃條件</td><td class="p-3"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs font-bold">調度</span></td><td class="p-3 text-slate-600">填入「專櫃 / 併櫃 / 頂層 / 不限」</td></tr>
+                                <tr class="bg-rose-50/30"><td class="p-3 pl-5 text-slate-400">9</td><td class="p-3 font-bold text-rose-600">重量</td><td class="p-3"><span class="px-2 py-0.5 bg-rose-100 text-rose-700 rounded text-xs font-bold">必備</span></td><td class="p-3 text-slate-600">單位公斤 (kg)</td></tr>
+                                <tr><td class="p-3 pl-5 text-slate-400">10/11</td><td class="p-3 font-bold">備註1 / 備註2</td><td class="p-3"><span class="px-2 py-0.5 bg-slate-200 rounded text-xs">選填</span></td><td class="p-3 text-slate-500">僅匯出至總覽表供參考</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心演算法 (Algorithm) -->
+    <section id="algorithm" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan-600 font-bold tracking-wider uppercase text-sm">Under the hood</span>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">演算法核心引擎</h2>
+                <p class="mt-4 text-lg text-slate-500 max-w-3xl mx-auto">
+                    確保算出的結果「既裝得多，又疊得穩」
                 </p>
             </div>
-        </section>
 
-
-        <!-- Part 2: How it works -->
-        <section>
-            <h2 class="text-3xl font-bold text-center section-title max-w-3xl mx-auto">第二部分：裝櫃師傅的「聰明大腦」是怎麼運作的？</h2>
-            <p class="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-12">您可能會好奇，為什麼它排出來的結果這麼厲害？這裡我用最簡單的方式，為您揭秘它背後的思考邏輯。</p>
-
-            <!-- NEW: 5 Conditions Section -->
-            <div class="mb-16 bg-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-bold text-center mb-2">✨ 認識五種「裝櫃條件」</h3>
-                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">在您的 Excel 清單中，「裝櫃條件」這一欄非常關鍵。它就像給師傅的「特別指示」，告訴他每種貨物有什麼脾氣。設定得越好，裝櫃結果就越完美！</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- 專櫃 -->
-                    <div class="condition-card">
-                        <h4 class="font-bold text-lg text-amber-600">專櫃 (The VIP)</h4>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「這票貨是超級貴賓，需要自己專屬的貨櫃，不能有任何其他種類的貨物來打擾。」</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>為這個「件號」的貨物開一個專屬貨櫃。例如，「專櫃」的A零件自己裝一櫃，「專櫃」的B零件裝另一櫃。</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>高價值、指定客戶、或絕對不能混放的貨物。</p>
-                    </div>
-                    <!-- 併櫃 -->
-                    <div class="condition-card">
-                        <h4 class="font-bold text-lg text-sky-600">併櫃 (Business Class)</h4>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「這批貨物們可以互相作伴，但不想跟普通貨物混在一起。」</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>將所有標示為「併櫃」的貨物集中起來，用一個或多個貨櫃來裝，裡面不會有其他條件的貨。</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>需集中管理，但貨物本身可互相混合的場景（如同一專案）。</p>
-                    </div>
-                    <!-- 頂層 -->
-                    <div class="condition-card">
-                        <h4 class="font-bold text-lg text-rose-600">頂層 (The Cake)</h4>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我很脆弱！請務必放在最上面，不准在我頭上再放任何東西！」</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>盡力將此貨物放在堆疊的最頂端，且絕不讓任何東西壓在它上面。</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>怕壓的輕貨、易碎品、或包裝脆弱的貨物。</p>
-                    </div>
-                     <!-- 中層 -->
-                    <div class="condition-card">
-                        <h4 class="font-bold text-lg text-indigo-600">中層 (The Sturdy Box)</h4>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我是個堅固的標準紙箱，可以被堆疊，也可以堆在別人身上。」</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>最常見的貨物。它上面可以堆東西，也可以被堆在「不限」或其他「中層」貨物之上。</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>大部分結構堅固的標準貨物。</p>
-                    </div>
-                     <!-- 不限 -->
-                    <div class="condition-card">
-                        <h4 class="font-bold text-lg text-slate-600">不限 (The Tough Guy)</h4>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">意思是：</strong>「我身強體壯，不怕壓，怎麼放都行，可以當作地基。」</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">師傅怎麼做：</strong>給了系統最大的彈性。系統會靈活運用這些貨物來打地基或填補空隙。</p>
-                        <p class="text-sm mt-2"><strong class="text-gray-800">何時使用：</strong>最耐用、最不怕壓、或完全不在意放置位置的貨物上。</p>
-                    </div>
-                    <div class="condition-card lg:col-span-1 md:col-span-2 bg-blue-50 border-blue-200">
-                         <h4 class="font-bold text-lg text-blue-800">總結</h4>
-                         <p class="text-sm mt-2">正確設定這些條件，就等於給了我們的裝櫃師傅最清晰的指令，讓他能為您做出最棒的規劃！</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center max-w-4xl mx-auto mb-12">
-                <div class="mt-6 p-6 bg-blue-50 border border-blue-200 rounded-lg inline-block">
-                    <h4 class="text-xl font-bold text-blue-800">核心概念：先整理、再裝櫃 (兩階段裝櫃法)</h4>
-                    <p class="text-blue-700 mt-2">當您啟用「裝箱打包」功能後，系統會分兩大階段來思考。</p>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-10 items-start">
-                <!-- Stage 1 -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-4 text-indigo-600">第一階段：聰明地預打包小貨物</h3>
-                    <p class="mb-6 text-gray-600">系統會先有條不紊地處理零散的小貨物，如同開設三條不同的生產線：</p>
-                    
-                    <!-- VIP Line -->
-                    <div class="flex items-start gap-4 mb-6">
-                        <div class="bg-yellow-100 text-yellow-600 rounded-full p-2 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Feature 1 -->
+                <div class="reveal hover-card bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-lg">VIP 生產線 (處理「專櫃」貨物)</h4>
-                            <p class="text-gray-600 text-sm">系統會先將「專櫃」小貨物依照「件號」分類，然後只為同一種件號的貨物打包外箱。您絕對不會在同一個外箱裡看到兩種不同的專櫃貨！</p>
-                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">終極物理雙軌制</h3>
                     </div>
-                    <!-- Shared Line -->
-                    <div class="flex items-start gap-4 mb-6">
-                         <div class="bg-green-100 text-green-600 rounded-full p-2 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg">共享生產線 (處理「併櫃」貨物)</h4>
-                            <p class="text-gray-600 text-sm">系統會把不同種類的「併櫃」小貨物，很有效率地混合打包進外箱裡。</p>
-                        </div>
-                    </div>
-                     <!-- General Line -->
-                    <div class="flex items-start gap-4 mb-6">
-                         <div class="bg-gray-100 text-gray-600 rounded-full p-2 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg">一般生產線 (處理「混合」貨物)</h4>
-                            <p class="text-gray-600 text-sm">剩下所有「不限」、「頂層」、「中層」的貨物都在這裡處理。系統會遵守堆疊規則（例如，「頂層」貨物放最上面），同時還會自動嘗試將貨物旋轉 90 度，尋找最省空間的放法！</p>
-                        </div>
-                    </div>
-                    <div class="pro-tip">
-                        <p class="font-semibold">如果小貨物裝不進外箱怎麼辦？</p>
-                        <p class="text-sm">別擔心！如果有個小貨物裝不進任何外箱，系統不會丟下它。它會把這個貨物移到大貨物的隊伍裡，讓它跟著大貨物一起進入下個階段。</p>
-                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        導入真實物理約束條件。任何物品疊加時，底面積必須有 <strong class="text-indigo-600">80% 獲得有效支撐</strong>。並採用雙軌判定：物品可「向下覆蓋」踩穩，或「橫向貼齊」緊靠艙壁與周圍箱體，模擬現場靠邊造塔的直覺動作。
+                    </p>
                 </div>
 
-                <!-- Stage 2 -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-4 text-green-600">第二階段：最終總裝櫃</h3>
-                    <p class="mb-6 text-gray-600">現在，我們手上有了大貨物和打包好的各類外箱。最後一步，就是把它們全部裝進真正的運輸貨櫃裡，過程同樣嚴格遵守分類優先級：</p>
-                    
-                    <ol class="relative border-l border-gray-200">                  
-                        <li class="mb-10 ml-6">            
-                            <span class="absolute flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full -left-4 ring-4 ring-white font-bold">
-                                1
-                            </span>
-                            <h4 class="flex items-center mb-1 text-lg font-semibold text-gray-900">專櫃貨櫃最優先</h4>
-                            <p class="text-base font-normal text-gray-600">系統會開一個專屬貨櫃，裡面只會裝同一種件號的「專櫃」大箱和「專櫃」外箱。</p>
-                        </li>
-                        <li class="mb-10 ml-6">
-                             <span class="absolute flex items-center justify-center w-8 h-8 bg-green-100 rounded-full -left-4 ring-4 ring-white font-bold">
-                                2
-                            </span>
-                            <h4 class="mb-1 text-lg font-semibold text-gray-900">接著是併櫃貨櫃</h4>
-                            <p class="text-base font-normal text-gray-600">處理完所有專櫃貨後，系統會開始裝載所有「併櫃」的大貨物和「併櫃外箱」。</p>
-                        </li>
-                        <li class="ml-6">
-                             <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white font-bold">
-                                3
-                            </span>
-                            <h4 class="mb-1 text-lg font-semibold text-gray-900">最後是混合貨櫃</h4>
-                            <p class="text-base font-normal text-gray-600">把剩下所有「混合」的大貨物和「混合外箱」全部裝進去。</p>
-                        </li>
-                    </ol>
+                <!-- Feature 2 -->
+                <div class="reveal reveal-delay-1 hover-card bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">多模式求解競技</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        系統不守單一邏輯，同時啟動多種演算法打擂台：<strong class="text-cyan-700">約束規劃 (CP-SAT)</strong> 追求體積最大化；<strong class="text-cyan-700">降冪啟發式</strong> 進行空間填充；<strong class="text-cyan-700">群組化打包</strong> 集中同料號。系統極速比對，自動挑選最優解。
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="reveal hover-card bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Z 軸重力壓縮</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        如同現場作業員將貨品往貨櫃深處推緊，系統在初步配置後，會掃描深度的每一個斷面，強制將有縫隙的物品<strong class="text-emerald-600">向內、向下壓實</strong>，確保最終配置達到極致緊密。
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="reveal reveal-delay-1 hover-card bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">雙向遷移調度</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        旨在降低總派車成本。當排定車隊計畫後，若發現整體平均利用率偏低，系統會自動嘗試將後面貨櫃的零星物品<strong class="text-amber-600">「回填」</strong>到前面貨櫃的剩餘空間中，最大化單車坪效。
+                    </p>
                 </div>
             </div>
-            
-            <div class="my-16 bg-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-bold text-center mb-4">🧠 裝櫃達人背後的智慧：我們的演算法如何思考？</h3>
-                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                    您是否好奇，「裝櫃達人」是如何在短時間內規劃出高品質的裝櫃方案的？這背後其實有一套結合了<strong>「完美理論」與「務實執行」</strong>的智慧結晶。您可以把它想像成一位經驗豐富的裝櫃達人，他分三步來完善任務：
-                </p>
-                <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6 text-left">
-                    <!-- Column 1: Step 1 -->
-                    <div class="condition-card h-full flex flex-col">
-                        <div class="flex items-start gap-3">
-                            <div class="bg-blue-100 text-blue-600 rounded-full p-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                            </div>
-                            <h4 class="font-bold text-lg text-blue-600 mt-1">第一步：紙上談兵 — 找出「數學上」的最佳物品組合</h4>
-                        </div>
-                        <div class="text-sm mt-4 flex-grow">
-                            <p class="mb-2"><strong class="text-gray-800">目標：</strong>在不考慮箱子怎麼擺，只考慮「總體積」的前提下，從您提供的所有貨物清單中，計算出一個能塞滿貨櫃體積的最佳貨物組合。</p>
-                            <p class="mb-2"><strong class="text-gray-800">方法：</strong>我們使用了 Google 開發的專業規劃引擎 (OR-Tools CP-SAT solver)，它能快速找到這個問題的「全域最佳解」。</p>
-                            <p><strong class="text-gray-800">成果：</strong>得到一份理論上最完美的「待裝清單」。這份清單上的貨物組合，是所有可能性中，總體積最接近貨櫃容量的。</p>
-                        </div>
-                    </div>
-                    <!-- Column 2: Step 2 -->
-                    <div class="condition-card h-full flex flex-col">
-                        <div class="flex items-start gap-3">
-                            <div class="bg-green-100 text-green-600 rounded-full p-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                            </div>
-                            <h4 class="font-bold text-lg text-green-600 mt-1">第二步：實地操作 — 採用「經驗法則」的放置策略</h4>
-                        </div>
-                        <div class="text-sm mt-4 flex-grow">
-                            <p class="mb-2"><strong class="text-gray-800">目標：</strong>將第一步挑選出的貨物，實際地、一個一個地放入虛擬的貨櫃空間中。</p>
-                            <p class="mb-2"><strong class="text-gray-800">方法：</strong>達人採用了一套非常務實的「啟發式演算法」(Heuristic)，也就是我們常說的「經驗法則」。它的策略很直接，就是<strong>「大的先放，見縫插針」</strong>。</p>
-                            <ul class="list-disc list-inside space-y-1 mb-2">
-                                <li>先把所有待裝箱子從大到小排序。</li>
-                                <li>拿起最大的一個，找到當下最底、最裡面、最左邊的第一個好位置，然後放下。</li>
-                                <li>接著再拿第二大的，重複這個過程。</li>
-                            </ul>
-                            <p><strong class="text-gray-800">成果：</strong>這種策略速度極快，並且能迅速產出一個品質非常高的<strong>「區域最佳解」</strong>。</p>
-                        </div>
-                    </div>
-                    <!-- Column 3: Backup Plan -->
-                    <div class="condition-card h-full flex flex-col">
-                         <div class="flex items-start gap-3">
-                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-                            </div>
-                            <h4 class="font-bold text-lg text-indigo-600 mt-1">獨家法寶：智慧備援機制 (Plan A vs. Plan B)</h4>
-                        </div>
-                        <div class="text-sm mt-4 flex-grow">
-                            <p class="mb-2">有時候，「理論上的完美」在現實中可能會碰壁。例如，挑選出的箱子形狀都很奇怪，實際擺放起來反而浪費了很多零碎空間。</p>
-                            <p class="mb-2">為了應對這種情況，我們的系統內建了一套自我檢查與備援機制：</p>
-                             <ul class="list-none space-y-1">
-                                <li><strong>Plan A (正常流程)：</strong>按照「第一步 → 第二步」的流程執行一次。</li>
-                                <li><strong>自我檢查：</strong>如果發現實際裝載的體積，連理論上總體積的 80% 都不到，系統就會判斷「這次的擺放效果很差！」。</li>
-                                <li><strong>Plan B (備援方案)：</strong>一旦觸發，系統會果斷放棄第一步的「完美清單」，改用一個更簡單直接的策略：將<strong>「所有」</strong>待裝箱子從大到小重新排序，再裝一次。</li>
-                                <li><strong>最終決策：</strong>系統最後會比較 Plan A 和 Plan B 兩個方案的成果，選擇裝載體積更高的那一個，作為最終的建議呈現給您。</li>
-                             </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </section>
 
-            <div class="mt-12 text-center bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-                 <h3 class="text-2xl font-bold mb-4">🪄 這就是「裝櫃達人」的專業！</h3>
-                 <p class="text-gray-600 leading-relaxed">
-                    「裝櫃達人」的智慧在於它並非單純追求某一種極致，而是將**<strong>「全局最佳的數學規劃」與「務實高效的放置經驗」</strong>**相結合，並透過<strong>智慧備援機制進行雙重檢查</strong>，旨在快速地為您找到一個非常接近完美、且高度實用的裝櫃方案。
-                 </p>
-            </div>
-
-        </section>
-
-    </main>
-    
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-16">
-        <div class="container mx-auto px-6 py-4 text-center">
-            <p>&copy; 2025 Chou Yung Kun ． All Rights Reserved.</p>
+    <footer class="bg-slate-900 py-8 text-center text-slate-400 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-2 mb-4 opacity-50 hover:opacity-100 transition cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-6 h-6 bg-slate-700 rounded flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                </div>
+                <span class="font-bold text-sm text-slate-300">回到頂部</span>
+            </div>
+            <p class="text-sm">&copy; 2026 裝櫃達人 智能物流排程系統. All rights reserved.</p>
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+                reveals.forEach(reveal => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            setTimeout(revealOnScroll, 100);
+        });
+    </script>
 </body>
 </html>
-
-
